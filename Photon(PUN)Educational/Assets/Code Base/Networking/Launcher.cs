@@ -6,7 +6,11 @@ namespace Code_Base.Networking
 {
 	public class Launcher : MonoBehaviourPunCallbacks
 	{
-		private string _gameVersion = "1";
+		[Tooltip("The maximum amount of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
+		[SerializeField] private byte _maximumAmountOfPlayersPerRoom = 4;
+		
+		
+		private readonly string _gameVersion = "1";
 
 		private void Awake() => 
 			PhotonNetwork.AutomaticallySyncScene = true;
@@ -26,7 +30,6 @@ namespace Code_Base.Networking
 				PhotonNetwork.GameVersion = _gameVersion;
 			}
 		}
-
 		
 		public override void OnConnectedToMaster()
 		{
@@ -39,7 +42,10 @@ namespace Code_Base.Networking
 		{
 			Debug.Log("PUN Basics Tutorial/Launcher: OnJoinRandomFailed() was called by PUN. No random room available, so we create one. \nCalling: PhotonNetwork.CreateRoom");
 			
-			PhotonNetwork.CreateRoom(null, new RoomOptions());
+			PhotonNetwork.CreateRoom(null, new RoomOptions
+			{
+				MaxPlayers = _maximumAmountOfPlayersPerRoom
+			});
 		}
 
 		public override void OnJoinedRoom() => 
