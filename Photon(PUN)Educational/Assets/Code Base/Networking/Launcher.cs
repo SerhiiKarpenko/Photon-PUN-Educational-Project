@@ -1,25 +1,28 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using System;
 
 namespace Code_Base.Networking
 {
 	public class Launcher : MonoBehaviourPunCallbacks
 	{
+		public event Action OnConnectedToRoomEvent;
+		public event Action OnConnectingStartedEvent;
+		public event Action OnDisconnectedEvent;
+		
 		[Tooltip("The maximum amount of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
 		[SerializeField] private byte _maximumAmountOfPlayersPerRoom = 4;
-		
 		
 		private readonly string _gameVersion = "1";
 
 		private void Awake() => 
 			PhotonNetwork.AutomaticallySyncScene = true;
-
-		private void Start() => 
-			Connect();
-
-		private void Connect()
+		
+		public void Connect()
 		{
+			OnConnectingStartedEvent?.Invoke();
+			
 			if (PhotonNetwork.IsConnected)
 			{
 				PhotonNetwork.JoinRandomRoom();
@@ -48,10 +51,18 @@ namespace Code_Base.Networking
 			});
 		}
 
-		public override void OnJoinedRoom() => 
+		public override void OnJoinedRoom()
+		{
+			OnConnectedToRoomEvent?.Invoke();
 			Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room");
+		}
 
-		public override void OnDisconnected(DisconnectCause cause) => 
-			Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}", cause);
+		public override void OnDisconnected(DisconnectCause cause)
+		{
+			OnDisconnectedEvent?.Invoke();
+			
+			Debug.LogWarningFormat("PUN Basics Tutorial/Launcher: OnDisconnected() was called by PUN with reason {0}",
+				cause);
+		}
 	}
 }
