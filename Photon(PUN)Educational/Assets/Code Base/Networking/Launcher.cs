@@ -54,6 +54,7 @@ namespace Code_Base.Networking
 		public override void OnJoinedRoom()
 		{
 			OnConnectedToRoomEvent?.Invoke();
+			
 			Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room");
 		}
 

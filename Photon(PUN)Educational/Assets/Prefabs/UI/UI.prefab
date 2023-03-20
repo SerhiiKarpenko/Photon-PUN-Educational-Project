@@ -249,7 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 789765a7a7b57944aaef02ed4e58ff94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _launcher: {fileID: 0}
+  _launcher: {fileID: 5628714100496171582, guid: eac4d0918b72c524e868a09385611827,
+    type: 3}
   _gameObjectsToDisableOnLoading:
   - {fileID: 4923484688138379731}
   - {fileID: 4923484687180903381}
