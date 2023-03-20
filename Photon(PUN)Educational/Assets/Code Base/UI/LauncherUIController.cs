@@ -1,4 +1,5 @@
 using Code_Base.Networking;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,7 @@ namespace Code_Base.UI
 		[SerializeField] private GameObject _controlPanel;
 		[SerializeField] private GameObject _progressLabel;
 		[SerializeField] private Button _playButton;
+		[SerializeField] private Button _exitGameButton;
 
 		private void Start()
 		{
@@ -22,6 +24,9 @@ namespace Code_Base.UI
 			SetActiveForObjectsOnLoadingArray(true);
 		}
 
+		private void OnDestroy() => 
+			UnsubscribeFromEvents();
+
 		private void SubscribeOnEvents()
 		{
 			_launcher.OnConnectingStartedEvent += OnConnectingStarted;
@@ -29,6 +34,17 @@ namespace Code_Base.UI
 			_launcher.OnConnectedToRoomEvent += OnConnected;
 
 			_playButton.onClick.AddListener(() => _launcher.Connect());
+			_exitGameButton.onClick.AddListener(ExitGame);
+		}
+
+		private void UnsubscribeFromEvents()
+		{
+			_launcher.OnConnectingStartedEvent -= OnConnectingStarted;
+			_launcher.OnDisconnectedEvent -= OnDisconnected;
+			_launcher.OnConnectedToRoomEvent -= OnConnected;
+
+			_playButton.onClick.RemoveListener(() => _launcher.Connect());
+			_exitGameButton.onClick.RemoveListener(ExitGame);
 		}
 
 		private void OnDisconnected()
@@ -58,5 +74,8 @@ namespace Code_Base.UI
 		
 		private void SetActiveForControlPanel(bool shouldBeActive) => 
 			_controlPanel.SetActive(shouldBeActive);
+
+		private void ExitGame() =>
+			Application.Quit();
 	}
 }
