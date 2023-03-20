@@ -1,9 +1,10 @@
 using Code_Base.Networking;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Code_Base.UI
 {
-	public class UIController : MonoBehaviour
+	public class LauncherUIController : MonoBehaviour
 	{
 		[SerializeField] private Launcher _launcher;
 		
@@ -11,6 +12,7 @@ namespace Code_Base.UI
 		
 		[SerializeField] private GameObject _controlPanel;
 		[SerializeField] private GameObject _progressLabel;
+		[SerializeField] private Button _playButton;
 
 		private void Start()
 		{
@@ -25,6 +27,8 @@ namespace Code_Base.UI
 			_launcher.OnConnectingStartedEvent += OnConnectingStarted;
 			_launcher.OnDisconnectedEvent += OnDisconnected;
 			_launcher.OnConnectedToRoomEvent += OnConnected;
+
+			_playButton.onClick.AddListener(() => _launcher.Connect());
 		}
 
 		private void OnDisconnected()
