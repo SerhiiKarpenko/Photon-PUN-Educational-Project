@@ -7,6 +7,8 @@ namespace Code_Base.Player
     {
         private const string Speed = "Speed";
         private const string Direction = "Direction";
+        private const string Jump = "Jump";
+        private const string BaseLayerRun = "Base Layer.Run";
 
         [SerializeField] private float _directionDampTime = 0.25f;
         
@@ -33,12 +35,24 @@ namespace Code_Base.Player
                 _verticalAxis = 0;
         }
 
+        private void HandleJump()
+        {
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            
+            if (!stateInfo.IsName(BaseLayerRun)) return;
+
+            if (Input.GetButtonDown("Fire2"))
+                SetJumpTrigger();
+        }
+
         private void SetSpeedFloat() => 
             _animator.SetFloat(Speed, Mathf.Abs(_horizontalAxis) + Mathf.Abs(_verticalAxis));
-        
+
         private void SetDirectionFloat() => 
             _animator.SetFloat(Direction, _horizontalAxis, _directionDampTime, Time.deltaTime);
-        
+
+        private void SetJumpTrigger() =>
+            _animator.SetTrigger(Jump);
 
         private void SetAnimator() =>
             _animator = GetComponent<Animator>();
