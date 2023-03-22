@@ -1,9 +1,10 @@
+using Photon.Pun;
 using UnityEngine;
 
 namespace Code_Base.Player
 {
     [RequireComponent(typeof(Animator))]
-    public class PlayerAnimator : MonoBehaviour
+    public class PlayerAnimator : MonoBehaviourPun
     {
         private const string Speed = "Speed";
         private const string Direction = "Direction";
@@ -21,6 +22,9 @@ namespace Code_Base.Player
 
         private void Update()
         {
+            if (!photonView.IsMine && PhotonNetwork.IsConnected)
+                return;
+            
             Axis();
             SetSpeedFloat();
             SetDirectionFloat();
