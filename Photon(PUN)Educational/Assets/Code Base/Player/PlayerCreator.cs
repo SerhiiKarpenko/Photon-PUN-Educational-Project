@@ -6,7 +6,6 @@ namespace Code_Base.Player
     public class PlayerCreator : MonoBehaviourPunCallbacks
     {
         public GameObject PlayerPrefab;
-
         private void Start()
         {
             if (PlayerPrefab == null)
@@ -19,7 +18,7 @@ namespace Code_Base.Player
             {
                 Debug.LogFormat("We are Instantiating LocalPlayer from {0}", Application.loadedLevelName);
 
-                PhotonNetwork.Instantiate(this.PlayerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity);
+                PhotonNetwork.Instantiate("My Robot Kyle/" + this.PlayerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity);
                 return;
             }
             

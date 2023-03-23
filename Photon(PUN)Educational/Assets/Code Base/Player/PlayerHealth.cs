@@ -6,6 +6,7 @@ namespace Code_Base.Player
 	public class PlayerHealth : MonoBehaviourPunCallbacks, IPunObservable
 	{
 		public float Health = 1f;
+		private bool _leaved = false;
 
 		private void Update()
 		{
@@ -16,11 +17,19 @@ namespace Code_Base.Player
 			}
 		}
 
-		public void GetDamage(float amount) => 
+		public void GetDamage(float amount)
+		{
 			Health -= amount;
+		}
 
-		private void Die() => 
+		private void Die()
+		{
+			if (_leaved) 
+				return;
+			
 			LocalPlayerNetworkController.Instance.LeaveRoom();
+			_leaved = true;
+		}
 
 		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
 		{
