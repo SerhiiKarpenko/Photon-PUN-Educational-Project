@@ -14,3 +14,8 @@ The game has up to 4 players and a custom sized arena based on the number of pla
 To prevent players from just walking around and doing nothing, we have implemented a basic firing system coupled with a player's health management. By doing so, we are learning how to synchronize variables across the network.
 
 When a player's health reaches 0, it's game over and they leave the arena. They are then presented with the intro screen again, allowing them to start a new game if they wish.
+
+# Gameplay video
+https://user-images.githubusercontent.com/80330854/228051069-8516fb99-13d0-49a8-ae57-04d229f28386.mp4
+
+
