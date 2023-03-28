@@ -7,19 +7,16 @@ namespace Code_Base.Player
 	{
 		public float Health = 1f;
 		private bool _leaved = false;
-
-		private void Update()
-		{
-			if (photonView.IsMine)
-			{
-				if (Health <= 0f)
-					Die();
-			}
-		}
-
+		
 		public void GetDamage(float amount)
 		{
+			if (!photonView.IsMine)
+				return;
+			
 			Health -= amount;
+			
+			if (Health <= 0)
+				Die();
 		}
 
 		private void Die()
